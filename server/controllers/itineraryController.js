@@ -1,24 +1,9 @@
 const mongoose = require("mongoose");
-const Trip = require("../models/Trip");
 const Itinerary = require("../models/Itinerary");
+const { validateTripParticipantAccess } = require("../utils/tripAccess");
 
 async function validateTripOwnership(tripId, userId, res) {
-  if (!mongoose.isValidObjectId(tripId)) {
-    res.status(400).json({ message: "Invalid trip ID." });
-    return false;
-  }
-
-  const tripExistsForUser = await Trip.exists({
-    _id: tripId,
-    user: userId,
-  });
-
-  if (!tripExistsForUser) {
-    res.status(404).json({ message: "Trip not found." });
-    return false;
-  }
-
-  return true;
+  return validateTripParticipantAccess(tripId, userId, res);
 }
 
 function parseStopDates(body) {

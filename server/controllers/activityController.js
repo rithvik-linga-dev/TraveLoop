@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const Trip = require("../models/Trip");
 const Itinerary = require("../models/Itinerary");
 const Activity = require("../models/Activity");
+const { tripExistsForParticipant } = require("../utils/tripAccess");
 
 /**
  * Ensures the trip belongs to this user AND the itinerary stop belongs to that trip.
@@ -18,7 +18,7 @@ async function validateStopOnOwnedTrip(tripId, stopId, userId, res) {
     return false;
   }
 
-  const tripOk = await Trip.exists({ _id: tripId, user: userId });
+  const tripOk = await tripExistsForParticipant(tripId, userId);
   if (!tripOk) {
     res.status(404).json({ message: "Trip not found." });
     return false;
