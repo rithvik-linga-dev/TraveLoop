@@ -10,6 +10,7 @@ const {
 const itineraryRoutes = require("./itineraryRoutes");
 const budgetRoutes = require("./budgetRoutes");
 const packingRoutes = require("./packingRoutes");
+const noteRoutes = require("./noteRoutes");
 
 const router = express.Router();
 
@@ -21,6 +22,7 @@ router.get("/", getTrips);
 router.use("/:tripId/itinerary", itineraryRoutes);
 router.use("/:tripId/budget", budgetRoutes);
 router.use("/:tripId/packing", packingRoutes);
+router.use("/:tripId/notes", noteRoutes);
 
 router.get("/:id", getTripById);
 router.patch("/:id", updateTrip);
